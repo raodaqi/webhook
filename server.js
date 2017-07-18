@@ -6,7 +6,7 @@ const PORT = 3030
   , MASTER_PATH = '/home/wwwroot/xuexizhuye.intlime.com/master/'
 
 var deployServer = http.createServer(function(request, response) {
-  if (request.url.search(/deploy/dev\/?$/i) > 0) {
+  if (request.url.search(/deploy_dev\/?$/i) > 0) {
 
     var commands = [
       'cd ' + DEV_PATH,
@@ -26,7 +26,7 @@ var deployServer = http.createServer(function(request, response) {
 
     })
 
-  } else if (request.url.search(/deploy/master\/?$/i) > 0) {
+  } else if (request.url.search(/deploy_master\/?$/i) > 0) {
 
     var commands = [
       'cd ' + MASTER_PATH,
