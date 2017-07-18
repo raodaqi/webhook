@@ -2,13 +2,14 @@ var http = require('http')
   , exec = require('exec')
 
 const PORT = 3030
-  , PATH = '/home/wwwroot/xuexizhuye.intlime.com/dev/'
+  , DEV_PATH = '/home/wwwroot/xuexizhuye.intlime.com/dev/'
+  , MASTER_PATH = '/home/wwwroot/xuexizhuye.intlime.com/master/'
 
 var deployServer = http.createServer(function(request, response) {
-  if (request.url.search(/deploy\/?$/i) > 0) {
+  if (request.url.search(/deploy/dev\/?$/i) > 0) {
 
     var commands = [
-      'cd ' + PATH,
+      'cd ' + DEV_PATH,
       'git pull'
     ].join(' && ')
 
@@ -21,7 +22,27 @@ var deployServer = http.createServer(function(request, response) {
       process.stderr.write(err)
       process.stdout.write(out)
       response.writeHead(200)
-      response.end('Deploy Done.')
+      response.end('Deploy Dev Done.')
+
+    })
+
+  } else if (request.url.search(/deploy/master\/?$/i) > 0) {
+
+    var commands = [
+      'cd ' + MASTER_PATH,
+      'git pull'
+    ].join(' && ')
+
+    exec(commands, function(err, out, code) {
+      if (err instanceof Error) {
+        response.writeHead(500)
+        response.end('Server Internal Error.')
+        throw err
+      }
+      process.stderr.write(err)
+      process.stdout.write(out)
+      response.writeHead(200)
+      response.end('Deploy Master Done.')
 
     })
 
