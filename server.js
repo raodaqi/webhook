@@ -2,8 +2,8 @@ var http = require('http')
   , exec = require('exec')
 
 const PORT = 3030
-  , DEV_PATH = '/home/wwwroot/xuexizhuye.intlime.com/dev/'
-  , MASTER_PATH = '/home/wwwroot/xuexizhuye.intlime.com/master/'
+  , DEV_PATH = '/home/wwwroot/www.xuexizhuye.com/xuexizhuye/'
+  , MASTER_PATH = '/home/wwwroot/dev.xuexizhuye.com/xuexizhuye/'
 
 var deployServer = http.createServer(function(request, response) {
   if (request.url.search(/deploy_dev\/?$/i) > 0) {
