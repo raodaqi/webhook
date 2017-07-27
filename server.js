@@ -4,6 +4,7 @@ var http = require('http')
 const PORT = 3030
   , DEV_PATH = '/home/wwwroot/dev.xuexizhuye.com/xuexizhuye/'
   , MASTER_PATH = '/home/wwwroot/www.xuexizhuye.com/xuexizhuye/'
+  , WX_MASTER_PATH = '/home/wwwroot/wx.xuexizhuye.com/xuexizhuye-wechat/'
 
 var deployServer = http.createServer(function(request, response) {
   if (request.url.search(/deploy_dev\/?$/i) > 0) {
@@ -30,6 +31,26 @@ var deployServer = http.createServer(function(request, response) {
 
     var commands = [
       'cd ' + MASTER_PATH,
+      'git pull'
+    ].join(' && ')
+
+    exec(commands, function(err, out, code) {
+      if (err instanceof Error) {
+        response.writeHead(500)
+        response.end('Server Internal Error.')
+        throw err
+      }
+      process.stderr.write(err)
+      process.stdout.write(out)
+      response.writeHead(200)
+      response.end('Deploy Master Done.')
+
+    })
+
+  }else if (request.url.search(/deploy_wx_master\/?$/i) > 0) {
+
+    var commands = [
+      'cd ' + WX_MASTER_PATH,
       'git pull'
     ].join(' && ')
 
